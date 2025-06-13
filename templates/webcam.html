@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Live Webcam Segmentation</h2>
+<video id="video" width="400" autoplay></video>
+<canvas id="canvas" width="400"></canvas>
+<script>
+navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+    document.getElementById('video').srcObject = stream;
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    setInterval(() => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(blob => {
+            const formData = new FormData();
+            formData.append('frame', blob);
+            fetch('/process_webcam', { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    let img = new Image();
+                    img.src = data.image;
+                    img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                });
+        }, 'image/jpeg');
+    }, 1000);
+});
+</script>
+{% endblock %}

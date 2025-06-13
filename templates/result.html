@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Result</h2>
+{% if type == 'image' %}
+    <img src="{{ url_for('results', filename=filename) }}" width="500"><br>
+    <b>Caption:</b> {{ caption }}<br>
+    <b>Detected Objects:</b>
+    <ul>
+    {% for obj in features %}
+        <li>ID: {{ obj.label_id }}, Score: {{ obj.score }}, Area: {{ obj.area }}, BBox: {{ obj.bbox }}</li>
+    {% endfor %}
+    </ul>
+{% elif type == 'video' %}
+    <video width="500" controls>
+        <source src="{{ url_for('results', filename=filename) }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <br>
+    <b>Processed Frames:</b> {{ frame_count }}
+{% endif %}
+<a href="{{ url_for('upload') }}">Try another</a>
+{% endblock %}

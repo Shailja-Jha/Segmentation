@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome!</h2>
+<p>Choose an option:</p>
+<ul>
+    <li><a href="{{ url_for('upload') }}">Upload Image/Video</a></li>
+    <li><a href="{{ url_for('webcam') }}">Use Webcam (Live)</a></li>
+</ul>
+{% endblock %}

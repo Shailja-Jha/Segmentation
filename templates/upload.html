@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Upload Image or Video</h2>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="file" required><br>
+    <label><input type="radio" name="mode" value="image" checked> Image</label>
+    <label><input type="radio" name="mode" value="video"> Video</label><br>
+    <input type="submit" value="Upload">
+</form>
+{% endblock %}
